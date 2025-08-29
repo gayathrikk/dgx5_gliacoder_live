@@ -1,25 +1,25 @@
 package com.test.DockerStatusTest;
 
 import com.jcraft.jsch.*;
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 import org.testng.annotations.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-public class gliacoder_live {
+public class Gliacoder_live {
 
     @Test(priority = 1)
-    public void Live_Web_Status() {
+    public void Gliacoder_live_Status() {
 
         String vmIpAddress = "172.20.23.157";
         String username = "appUser";
         String password = "Brain@123";
         String containerId = "8b4b213b15db";
 
-        System.out.println("Gliacoder Live Docker ID = " + containerId);
+        System.out.println("Gliacoder_live Docker ID = " + containerId);
 
         if (containerId.isEmpty()) {
             System.out.println("Container ID is required.");
@@ -56,7 +56,7 @@ public class gliacoder_live {
 
             // If container is not running, send alert
             if (!isRunning) {
-                sendEmailAlert("Hi,\n\n🚨 This is Gliacoder Live Docker. I am currently down. Kindly restart the container at your earliest convenience.");
+                sendEmailAlert("Hi,\n\n🚨 This is Gliacoder_liveDocker. I am currently down. Kindly restart the container at your earliest convenience.");
                 assert false : "Container is not in the expected state.";
             }
 
@@ -67,9 +67,22 @@ public class gliacoder_live {
 
     public void sendEmailAlert(String messageBody) {
         String from = "automationsoftware25@gmail.com";
-        String to = "gayathri@htic.iitm.ac.in";
-       // String cc = "";
-        String subject = "Docker Container Alert - Apollo2 LiveWeb";
+
+        // TO recipients
+        String[] to = {
+            "nitheshkumarsundhar@gmail.com",
+            "ramanan@htic.iitm.ac.in"
+        };
+
+        // CC recipients
+        String[] cc = {
+            "divya.d@htic.iitm.ac.in",
+            "venip@htic.iitm.ac.in",
+            "meena@htic.iitm.ac.in",
+            "gayathri@htic.iitm.ac.in"
+        };
+
+        String subject = "Docker Container Alert - Gliacoder_live";
         final String username = "automationsoftware25@gmail.com";
         final String password = "wjzcgaramsqvagxu"; // App-specific password
 
@@ -79,7 +92,7 @@ public class gliacoder_live {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        jakarta.mail.Session mailSession = jakarta.mail.Session.getInstance(props, new Authenticator() {
+        javax.mail.Session mailSession = javax.mail.Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -88,8 +101,17 @@ public class gliacoder_live {
         try {
             Message message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(from, "Docker Monitor"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-           // message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
+
+            // Convert arrays to comma-separated strings
+            message.setRecipients(
+                Message.RecipientType.TO,
+                InternetAddress.parse(String.join(",", to))
+            );
+            message.setRecipients(
+                Message.RecipientType.CC,
+                InternetAddress.parse(String.join(",", cc))
+            );
+
             message.setSubject(subject);
             message.setText(messageBody);
 
@@ -100,3 +122,4 @@ public class gliacoder_live {
         }
     }
 }
+
