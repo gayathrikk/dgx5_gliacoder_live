@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-public class Gliacoder_live {
+public class gliacoder_live {
 
     @Test(priority = 1)
     public void Gliacoder_live_Status() {
@@ -122,4 +122,5 @@ public class Gliacoder_live {
         }
     }
 }
+
 
